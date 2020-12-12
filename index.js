@@ -7,14 +7,20 @@ type Curso{
     tecnologia: String
 }
 
+type Tecnologia {
+    tecnologia: String,
+}
+
 type Query{
     obtenerCursos : [Curso]
+    obtenerTecnologia: [Tecnologia ]
 }
 `;
 
 const resolvers = {
   Query: {
     obtenerCursos: () => cursos,
+    obtenerTecnologia: () => cursos
   },
 };
 
@@ -29,7 +35,7 @@ const cursos = [
   },
   {
     titulo: "Node.js - Bootcamp Desarrollo Web inc. MVC y RESR API´s",
-    tecnología: "Node.js",
+    tecnologia: "Node.js",
   },
   {
     titulo: "ReacJS Avanzado - FullStack React GraphQL y Apollo",
