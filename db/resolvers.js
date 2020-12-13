@@ -5,6 +5,9 @@ const resolvers = {
       obtenerCursos: () => cursos,
       obtenerTecnologia: () => cursos
     },
+    Mutation: {
+      crearUsuario: () => { console.log("User Created")}
+    }
   };
   
   const cursos = [

@@ -15,6 +15,11 @@ type Query{
     obtenerCursos : [Curso]
     obtenerTecnologia: [Tecnologia ]
 }
+
+type Mutation{
+    crearUsuario: String
+}
+
 `;
 
 module.exports = typeDefs;
