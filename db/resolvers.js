@@ -1,4 +1,5 @@
 const Usuario = require('../models/Usuario');
+const bcryptjs = require('bcryptjs');
 
 const resolvers = {
     Query: {
@@ -15,9 +16,14 @@ const resolvers = {
         }
 
         try {
+          // Hashear password
+          const salt = await bcryptjs.genSalt(10);
+          input.password = await bcryptjs.hash(password, salt);
+
+          //Registrar nuevo usuario
           const nuevoUsuario = new Usuario(input);
-          console.log("Nuevo Usuario: ", nuevoUsuario);
           nuevoUsuario.save();
+
           return "Usuario Creado Correctamente";
         } catch (error) {
           console.log("Error Crear Usuario: ",error)
