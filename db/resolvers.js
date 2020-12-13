@@ -6,7 +6,11 @@ const resolvers = {
       obtenerTecnologia: () => cursos
     },
     Mutation: {
-      crearUsuario: () => { console.log("User Created")}
+      crearUsuario: (root, {input}, context) => { 
+        const {nombre, password} = input;
+        console.log(`User Created ${nombre}`);
+        console.log("args: ", input);
+      }
     }
   };
   

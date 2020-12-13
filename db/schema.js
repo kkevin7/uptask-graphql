@@ -16,8 +16,14 @@ type Query{
     obtenerTecnologia: [Tecnologia ]
 }
 
+input UsuarioInput {
+    nombre: String!,
+    email: String!,
+    password: String!
+}
+
 type Mutation{
-    crearUsuario: String
+    crearUsuario(input: UsuarioInput): String
 }
 
 `;
