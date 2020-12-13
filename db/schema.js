@@ -14,6 +14,11 @@ const typeDefs = gql`
       token: String
   }
 
+  type Proyecto {
+      nombre: String
+      id: ID
+  }
+
 #  ------------------- inputs -------------------
 
   input UsuarioInput {
@@ -25,6 +30,10 @@ const typeDefs = gql`
   input AutenticarInput {
     email: String!
     password: String!
+  }
+  
+  input ProyectoInput {
+      nombre: String!
   }
 
 #  ----------------- Queries -----------------
@@ -39,6 +48,7 @@ const typeDefs = gql`
   type Mutation {
     crearUsuario(input: UsuarioInput): String
     autenticarUsuario(input: AutenticarInput): Token
+    nuevoProyecto(input: ProyectoInput) : Proyecto
   }
 `;
 
