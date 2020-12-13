@@ -159,7 +159,25 @@ const resolvers = {
         console.log("Error actualizarTarea: ", error);
       }
     },
+    eliminarTarea: async (_, { id }, context) => {
+      //Revisar si existe la tarea
+      let tarea = await Tarea.findOne({_id: id});
+      if(!tarea ){
+        throw new Error("La tarea no encontrada");
+      }
 
+      //Revisar que si la persona que trata de editarlo, es el creador
+      if (tarea.creador.toString() !== context.usuario.id) {
+        throw new Error("No tienes las credenciales para editar");
+      }
+
+      try {
+        tarea = await Tarea.findOneAndDelete({_id: id});
+        return tarea;
+      } catch (error) {
+        console.log("Error eliminarTarea: ",error);
+      }
+    }
   },
 };
 
