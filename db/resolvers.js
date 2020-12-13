@@ -1,4 +1,4 @@
-const { gql } = require("apollo-server");
+const Usuario = require('../models/Usuario');
 
 const resolvers = {
     Query: {
@@ -6,10 +6,22 @@ const resolvers = {
       obtenerTecnologia: () => cursos
     },
     Mutation: {
-      crearUsuario: (root, {input}, context) => { 
-        const {nombre, password} = input;
-        console.log(`User Created ${nombre}`);
-        console.log("args: ", input);
+      crearUsuario: async (_, {input}, context) => { 
+        const {nombre, email, password} = input;
+
+        const existeUsuario = await Usuario.findOne({email});
+        if(existeUsuario){
+          throw new Error('El usuario ya esta registrado')
+        }
+
+        try {
+          const nuevoUsuario = new Usuario(input);
+          console.log("Nuevo Usuario: ", nuevoUsuario);
+          nuevoUsuario.save();
+          return "Usuario Creado Correctamente";
+        } catch (error) {
+          console.log("Error Crear Usuario: ",error)
+        }
       }
     }
   };

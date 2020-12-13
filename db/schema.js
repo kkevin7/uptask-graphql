@@ -17,8 +17,8 @@ type Query{
 }
 
 input UsuarioInput {
-    nombre: String!,
-    email: String!,
+    nombre: String!
+    email: String!
     password: String!
 }
 
