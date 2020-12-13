@@ -1,8 +1,12 @@
+//Models
 const Usuario = require("../models/Usuario");
 const Proyecto = require("../models/Proyecto");
+const Tarea = require("../models/Tarea");
+//Enviroments Variables
+require("dotenv").config({ path: "variables.env" });
+//Dependences
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-require("dotenv").config({ path: "variables.env" });
 
 //Crea y firma un JWT
 const crearToken = (user, secret, expiresIn) => {
@@ -115,6 +119,18 @@ const resolvers = {
       proyecto = await Proyecto.findOneAndDelete({_id: id});
       return "Proyecto Eliminado";
     },
+
+
+    nuevaTarea: async (_, { input }, context) => {
+      try {
+        const tarea = new Tarea(input);
+        tarea.creador = context.usuario.id;
+        const resultado = await tarea.save();
+        return resultado;
+      } catch (error) {
+        console.log("Error nuevaTarea: ", error);
+      }
+    }
   },
 };
 
