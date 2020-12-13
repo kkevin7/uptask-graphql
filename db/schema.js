@@ -10,6 +10,10 @@ const typeDefs = gql`
     tecnologia: String
   }
 
+  type Token {
+      token: String
+  }
+
 #  ------------------- inputs -------------------
 
   input UsuarioInput {
@@ -34,7 +38,7 @@ const typeDefs = gql`
 
   type Mutation {
     crearUsuario(input: UsuarioInput): String
-    autenticarUsuario(input: AutenticarInput): String
+    autenticarUsuario(input: AutenticarInput): Token
   }
 `;
 
