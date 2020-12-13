@@ -12,8 +12,10 @@ const crearToken = (user, secret, expiresIn) => {
 
 const resolvers = {
   Query: {
-    obtenerCursos: () => cursos,
-    obtenerTecnologia: () => cursos,
+    obtenerProyectos: async (_, {}, ctx) => {
+      const proyectos = await Proyecto.find({creador: ctx.usuario.id});
+      return proyectos;
+    } 
   },
   Mutation: {
     crearUsuario: async (_, { input }, context) => {
