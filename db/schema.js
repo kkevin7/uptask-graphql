@@ -39,10 +39,15 @@ const typeDefs = gql`
     proyecto: String!
   }
 
+  input ProyectoIDInput {
+      proyecto: String!
+  }
+
   #  ----------------- Queries -----------------
 
   type Query {
     obtenerProyectos: [Proyecto]
+    obtenerTareas(input: ProyectoIDInput) : [Tarea]
   }
 
   #  ------------------  Mutation ------------------
@@ -57,6 +62,7 @@ const typeDefs = gql`
 
     #Tareas
     nuevaTarea(input: TareaInput): Tarea
+    actualizarTarea(id: ID!, input: TareaInput, estado: Boolean) : Tarea
   }
 `;
 

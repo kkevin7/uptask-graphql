@@ -17,9 +17,13 @@ const crearToken = (user, secret, expiresIn) => {
 const resolvers = {
   Query: {
     obtenerProyectos: async (_, {}, ctx) => {
-      const proyectos = await Proyecto.find({creador: ctx.usuario.id});
+      const proyectos = await Proyecto.find({ creador: ctx.usuario.id });
       return proyectos;
-    } 
+    },
+    obtenerTareas: async (_, {input}, ctx) => {
+      const tareas = await Tarea.find({creador: ctx.usuario.id}).where('proyecto').equals(input.proyecto);
+      return tareas;
+    }
   },
   Mutation: {
     crearUsuario: async (_, { input }, context) => {
@@ -70,11 +74,11 @@ const resolvers = {
         token: crearToken(existeUsuario, process.env.SECRET, "2hr"),
       };
     },
-    nuevoProyecto: async (_, {input}, context) => {
+    nuevoProyecto: async (_, { input }, context) => {
       try {
         const proyecto = new Proyecto(input);
 
-        //asocuar el creador 
+        //asocuar el creador
         proyecto.creador = context.usuario.id;
 
         //almacenarlo en la DB
@@ -82,44 +86,45 @@ const resolvers = {
 
         return resultado;
       } catch (error) {
-        console.log("Error nuevoProyecto: ",error)
+        console.log("Error nuevoProyecto: ", error);
       }
     },
-    actualizarProyecto: async (_, {id, input}, context) => {
+    actualizarProyecto: async (_, { id, input }, context) => {
       //Reivisar si el poryecto existe o no
       let proyecto = await Proyecto.findById(id);
 
-      if(!proyecto){
+      if (!proyecto) {
         throw new Error("Proyecto no encontrado");
       }
 
       //Revisar que si la persona que trata de editarlo, es el creador
-      if(proyecto.creador.toString() !== context.usuario.id){
-        throw new Error('No tienes las credenciales para editar');
+      if (proyecto.creador.toString() !== context.usuario.id) {
+        throw new Error("No tienes las credenciales para editar");
       }
 
       //Guardar el proyecto
-      proyecto = await Proyecto.findOneAndUpdate({_id: id}, input, {new: true});
+      proyecto = await Proyecto.findOneAndUpdate({ _id: id }, input, {
+        new: true,
+      });
       return proyecto;
     },
-    eliminarProyecto: async (_, {id}, context) => {
+    eliminarProyecto: async (_, { id }, context) => {
       //Reivisar si el poryecto existe o no
       let proyecto = await Proyecto.findById(id);
 
-      if(!proyecto){
+      if (!proyecto) {
         throw new Error("Proyecto no encontrado");
       }
 
       //Revisar que si la persona que trata de editarlo, es el creador
-      if(proyecto.creador.toString() !== context.usuario.id){
-        throw new Error('No tienes las credenciales para editar');
+      if (proyecto.creador.toString() !== context.usuario.id) {
+        throw new Error("No tienes las credenciales para editar");
       }
 
       //Eliminar proyecto
-      proyecto = await Proyecto.findOneAndDelete({_id: id});
+      proyecto = await Proyecto.findOneAndDelete({ _id: id });
       return "Proyecto Eliminado";
     },
-
 
     nuevaTarea: async (_, { input }, context) => {
       try {
@@ -130,7 +135,31 @@ const resolvers = {
       } catch (error) {
         console.log("Error nuevaTarea: ", error);
       }
-    }
+    },
+    actualizarTarea: async (_, { id, input, estado }, context) => {
+      //Si la tarea existe o no
+      let tarea = await Tarea.findById(id);
+
+      if (!tarea) {
+        throw new Error("Tarea no encontrada");
+      }
+
+      //Si la persona que edita es el creador
+      if (tarea.creador.toString() !== context.usuario.id) {
+        throw new Error("No tienes las credenciales para editar");
+      }
+
+      try {
+        //asignar estado
+        input.estado = estado;
+        //Guardar y retornar la tarea
+        tarea = await Tarea.findOneAndUpdate({ _id: id }, input, { new: true });
+        return tarea;
+      } catch (error) {
+        console.log("Error actualizarTarea: ", error);
+      }
+    },
+
   },
 };
 
