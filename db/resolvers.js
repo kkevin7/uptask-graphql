@@ -20,10 +20,12 @@ const resolvers = {
       const proyectos = await Proyecto.find({ creador: ctx.usuario.id });
       return proyectos;
     },
-    obtenerTareas: async (_, {input}, ctx) => {
-      const tareas = await Tarea.find({creador: ctx.usuario.id}).where('proyecto').equals(input.proyecto);
+    obtenerTareas: async (_, { input }, ctx) => {
+      const tareas = await Tarea.find({ creador: ctx.usuario.id })
+        .where("proyecto")
+        .equals(input.proyecto);
       return tareas;
-    }
+    },
   },
   Mutation: {
     crearUsuario: async (_, { input }, context) => {
@@ -161,8 +163,8 @@ const resolvers = {
     },
     eliminarTarea: async (_, { id }, context) => {
       //Revisar si existe la tarea
-      let tarea = await Tarea.findOne({_id: id});
-      if(!tarea ){
+      let tarea = await Tarea.findOne({ _id: id });
+      if (!tarea) {
         throw new Error("La tarea no encontrada");
       }
 
@@ -172,12 +174,12 @@ const resolvers = {
       }
 
       try {
-        tarea = await Tarea.findOneAndDelete({_id: id});
+        tarea = await Tarea.findOneAndDelete({ _id: id });
         return tarea;
       } catch (error) {
-        console.log("Error eliminarTarea: ",error);
+        console.log("Error eliminarTarea: ", error);
       }
-    }
+    },
   },
 };
 
