@@ -53,9 +53,11 @@ const typeDefs = gql`
   #  ------------------  Mutation ------------------
 
   type Mutation {
-    #Proyectos
+    #Usuarios
     crearUsuario(input: UsuarioInput): String
     autenticarUsuario(input: AutenticarInput): Token
+
+    #Proyectos
     nuevoProyecto(input: ProyectoInput): Proyecto
     actualizarProyecto(id: ID!, input: ProyectoInput): Proyecto
     eliminarProyecto(id: ID!): String
