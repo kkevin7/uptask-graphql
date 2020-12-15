@@ -10,8 +10,8 @@ const jwt = require("jsonwebtoken");
 
 //Crea y firma un JWT
 const crearToken = (user, secret, expiresIn) => {
-  const { id, email } = user;
-  return jwt.sign({ id, email }, secret, { expiresIn });
+  const { id, email, nombre } = user;
+  return jwt.sign({ id, email, nombre }, secret, { expiresIn });
 };
 
 const resolvers = {
@@ -73,7 +73,7 @@ const resolvers = {
 
       //Dar acceso a la app
       return {
-        token: crearToken(existeUsuario, process.env.SECRET, "2hr"),
+        token: crearToken(existeUsuario, process.env.SECRET, "4hr"),
       };
     },
     nuevoProyecto: async (_, { input }, context) => {
