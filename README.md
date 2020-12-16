@@ -1,10 +1,10 @@
 ## See the final project
 
-
+Use server [https://tasksgraphql.herokuapp.com/](https://tasksgraphql.herokuapp.com/) 
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory, you can run on localhost:
 
 ### `npm run dev`
 
